@@ -102,82 +102,36 @@ class PostController
         return $lastId;
     }
 
-    public function postListOld()
-    {
-        $arrDatas = [
-            [
-                'id' => 1,
-                'image_url' => 'https://media.springernature.com/lw1200/springer-static/image/art%3A10.1038%2Fs41477-019-0374-3/MediaObjects/41477_2019_374_Figa_HTML.jpg',
-                'content' => 'Hidup Adalah Perjuangan',
-                'post_by_name' => 'Joni',
-                'like_total' => 20,
-                'comment_total' => 4,
-            ],
-            [
-                'id' => 2,
-                'image_url' => 'https://www.timeforkids.com/wp-content/uploads/2019/09/final-cover-forest.jpg',
-                'content' => 'They found that functional diversity in forests tends to decrease as environmental conditions become harsher, such as along altitudinal and latitudinal gradients',
-                'post_by_name' => 'Viko',
-                'like_total' => 40,
-                'comment_total' => 23,
-            ],
-            [
-                'id' => 3,
-                'image_url' => 'https://onetreeplanted.org/cdn/shop/articles/Forest_Fog_1600x.jpg',
-                'content' => 'Sign up for the Nature Briefing newsletter — what matters in science, free to your inbox daily.',
-                'post_by_name' => 'Jeni Virginikan',
-                'like_total' => 210,
-                'comment_total' => 14,
-            ],
-        ];
-
-        return $arrDatas;
-    }
 
 
     public function hashtagByPostId($params)
     {
-        $postId = $params['post_id'];
+        $postIds = $params['post_ids'];
+        $postIds = json_decode($postIds, true);
 
-        $arrDatas = [
-            [
-                'id' => 1,
-                'post_id' => 1,
-                'hashtag_title' => '#nature'
-            ],
-            [
-                'id' => 2,
-                'post_id' => 1,
-                'hashtag_title' => '#green'
-            ],
-            [
-                'id' => 3,
-                'post_id' => 3,
-                'hashtag_title' => '#wood'
-            ],
-            [
-                'id' => 4,
-                'post_id' => 1,
-                'hashtag_title' => '#wood'
-            ],
-            [
-                'id' => 5,
-                'post_id' => 3,
-                'hashtag_title' => '#forest'
-            ],
-            [
-                'id' => 6,
-                'post_id' => 2,
-                'hashtag_title' => '#forest'
-            ],
-            [
-                'id' => 7,
-                'post_id' => 2,
-                'hashtag_title' => '#flora'
-            ],
-        ];
+        // Ensure postIds is an array and not empty
+        if (empty($postIds) || !is_array($postIds)) {
+            return [];
+        }
 
-        return $arrDatas;
+        // Sanitize each ID to prevent SQL injection
+        $sanitizedIds = array_map('intval', $postIds);
+
+        // Convert the array of integers into a comma-separated string
+        $idString = implode(',', $sanitizedIds);
+
+        $sql = "SELECT 
+                    rel_hashtag_posts.id, 
+                    rel_hashtag_posts.post_id,
+                    title 
+                    FROM `rel_hashtag_posts` 
+                LEFT JOIN hashtags ON hashtags.id = rel_hashtag_posts.hashtag_id
+                WHERE rel_hashtag_posts.post_id IN ($idString)
+                ORDER BY rel_hashtag_posts.id DESC;";
+
+        $rhp = $this->mysqlDb->getRows($sql);
+
+        return $rhp;
     }
 
 
@@ -188,7 +142,5 @@ class PostController
         $posts = $this->mysqlDb->getRows($sql);
 
         return $posts;
-
-        return $arrDatas;
     }
 }

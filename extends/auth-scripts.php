@@ -59,7 +59,7 @@
 
             window.setTimeout(function() {
                 location.replace(baseUrl+"/post.php");
-            }, 3000);
+            }, 1500);
         });
     }
 </script>

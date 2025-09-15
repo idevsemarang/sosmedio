@@ -9,7 +9,15 @@
             <input type="text" name="" class="form-control" placeholder="Cari apapun..." id="">
         </div>
         <div class="col-lg-4 col-2">
-            <div class="avatar float-end" id="initial-username" style="background:red;">J</div>
+            <div class="dropdown">
+                <button class="btn btn-danger rounded-4 dropdown-toggle float-end" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><button class="dropdown-item text-danger" onclick="doLogout()" type="button">Logout</button></li>
+                </ul>
+            </div>
+            
         </div>
     </div>
 </div>
@@ -18,7 +26,7 @@
     <div id="list-posts"></div>
 </div>
 
-<button id="button-new-post" class="btn btn-success rounded-pill shadow" data-bs-toggle="modal" data-bs-target="#newPostModal">New Post</button>
+<button id="button-new-post" class="btn btn-success rounded-pill shadow" data-bs-toggle="modal" data-bs-target="#newPostModal"> <i class="fas fa-pencil"></i> New Post</button>
 
 <!-- Modal untuk Menambah Komentar -->
 
@@ -55,18 +63,28 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-success">
-                <h5 class="modal-title text-white" id="commentModalLabel">Tambahkan Komentar</h5>
+                <h5 class="modal-title text-white" id="commentModalLabel">Komentar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
                 <form id="commentForm">
                     <div class="mb-3">
-                        <label for="comment-text" class="col-form-label">Komentar:</label>
-                        <textarea class="form-control" id="comment-text" rows="3" required></textarea>
+                        <textarea class="form-control" name="content" placeholder="Komentar Anda..." id="comment-text" rows="2" required></textarea>
                     </div>
 
-                    <button type="button" class="btn btn-success" id="submitComment">Kirim</button>
+                    <input type="hidden" name="user_id" id="cmn-user_id">
+                    <input type="hidden" name="post_id" id="cmn-post_id">
+
+                    <button type="button" id="btn-for-commentForm" class="btn btn-success" onclick="handleComment('comment-create.php', 'commentForm')">Kirim</button>
                 </form>
+
+                <hr>
+                <div id="list-comment" class="p-2">
+                    <div class="rounded-4 bg-gray mb-3 bg-smooth-green py-2 px-3">
+                        <b>Johny Elyas</b> <small class="float-end">2025-09-16 10:20:22</small><br>
+                        <p class="mb-1">Wow mantap man</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

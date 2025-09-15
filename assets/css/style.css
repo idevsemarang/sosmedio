@@ -99,3 +99,6 @@ body {
 .select2-selection__arrow {
   height: 40px !important;
 }
+.bg-smooth-green{
+  background-color: #e4f6ed;
+}

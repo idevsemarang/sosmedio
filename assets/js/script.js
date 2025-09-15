@@ -1,15 +1,29 @@
 const baseUrl = "http://localhost/workshop/sosmedio";
 const baseUrlApi = baseUrl+"/api";
 
-function initializePage() 
-{
-  const currentUrl = window.location.href;
-  const authUrl = baseUrl+"/auth.php";
 
-  if(localStorage.getItem("id") && currentUrl == authUrl){
-    location.replace(baseUrl+"/post.php");
+function initializePage() {
+  const currentUrl = window.location.href;
+  const authUrl = baseUrl + "/auth.php";
+  const postId = localStorage.getItem("id");
+
+  if (postId && currentUrl === authUrl) {
+    window.location.replace(baseUrl + "/post.php");
+  } 
+  else if (!postId && currentUrl !== authUrl) {
+    window.location.replace(authUrl);
   }
 }
+
+
+function initializeIndexPage() {
+  if (localStorage.getItem("id")) {
+    window.location.replace(baseUrl + "/post.php");
+  } else{
+    window.location.replace(baseUrl + "/auth.php");
+  }
+}
+
 
 function softSubmit(endpoint, formId, callback = false) {
   var initText = $("#btn-for-" + formId).html();
