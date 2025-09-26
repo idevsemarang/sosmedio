@@ -41,16 +41,17 @@ Before you begin, make sure you have the following installed:
 
 ### Installation
 
-1.  Clone this repository
-2.  Navigate to the project directory:
-    ```bash
-    cd sosmedio
-    ```
+1.  Clone or download this repository
+2.  Navigate to the project directory and make sure the project folder name is sosmedio
 3.  Set up your database:
-    * Create a new MySQL database named `sosmedio`.
+    * Create a new MySQL database named `idev_sosmedio`.
     * Import the provided database schema (docs/idev_sosmedio.sql).
 4.  Update the database connection details in your configuration file (app/DbConfig.php) to match your local setup.
-5.  Start your web server and open the project in your browser.
+5.  Navigate to assets/js/script.js and adjust the base url according to your project location, for example
+    ```bash
+    const baseUrl = "http://localhost/sosmedio";
+    ```
+6.  Start your web server and open the project in your browser via http://localhost/sosmedio.
 
 ---
 
